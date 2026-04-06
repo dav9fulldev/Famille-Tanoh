@@ -1,0 +1,40 @@
+name: "CodeQL Analysis"
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  schedule:
+    - cron: '0 12 * * 1' # Exécution automatique tous les lundis à 12h
+
+jobs:
+  analyze:
+    name: Analyse de sécurité CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Comme nous utilisons principalement du JavaScript pour le projet
+        language: [ 'javascript' ]
+
+    steps:
+    - name: Checkout du dépôt
+      uses: actions/checkout@v4
+
+    - name: Initialisation de CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+        # Utilisation des règles de qualité et de sécurité avancées
+        queries: security-and-quality
+
+    - name: Lancement de l'Analyse CodeQL
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{matrix.language}}"

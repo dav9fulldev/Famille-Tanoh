@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotisation Familiale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <header class="header no-print">
+        <div class="container">
+            <h1>Cotisation Familiale Tanoh</h1>
+            <p>Contribution annuelle : <strong>10000 FCFA</strong></p>
+        </div>
+    </header>
+
+    <main class="container no-print">
+        <section class="hero glass-panel">
+            <h2>Bienvenue ✨</h2>
+            <p class="subtitle">Ce site permet à chaque membre de la famille de régler sa cotisation annuelle
+                facilement.</p>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon-wrap"><ion-icon name="heart"></ion-icon></div>
+                    <h3>Solidarité</h3>
+                    <p>Soutenons-nous les uns les autres.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-wrap"><ion-icon name="calendar-clear"></ion-icon></div>
+                    <h3>Organisation</h3>
+                    <p>Mieux gérer nos événements familiaux.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon-wrap"><ion-icon name="flash"></ion-icon></div>
+                    <h3>Simplicité</h3>
+                    <p>Paiement rapide, sécurisé via Wave.</p>
+                </div>
+            </div>
+
+            <!-- Détails de l'engagement (Affiché en permanence sous les cartes) -->
+            <div class="engagement-details show-details"
+                style="margin-top: 40px; text-align: center; border-left: none; background: transparent; padding: 0;">
+                <h3 style="font-size: 1.4rem; color: var(--primary);">Les objectifs de notre cotisation</h3>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">La cotisation familiale n'est pas seulement
+                    une formalité financière, c'est avant tout un acte d'amour et de cohésion pour la famille. Elle nous
+                    engage à :</p>
+
+                <div
+                    style="display: flex; flex-direction: column; gap: 15px; text-align: left; background: var(--white); padding: 25px; border-radius: 12px; box-shadow: var(--shadow-sm);">
+                    <div style="display: flex; gap: 10px; align-items: start;">
+                        <ion-icon name="checkmark-circle"
+                            style="color: var(--success); font-size: 24px; min-width: 24px;"></ion-icon>
+                        <p style="margin: 0;"><strong>Soutenir</strong> les membres lors des grands événements heureux
+                            (mariages, baptêmes, diplômes).</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: start;">
+                        <ion-icon name="checkmark-circle"
+                            style="color: var(--success); font-size: 24px; min-width: 24px;"></ion-icon>
+                        <p style="margin: 0;"><strong>Être solidaires</strong> et réagir très rapidement lors
+                            d'éventuelles situations difficiles.</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: start;">
+                        <ion-icon name="checkmark-circle"
+                            style="color: var(--success); font-size: 24px; min-width: 24px;"></ion-icon>
+                        <p style="margin: 0;"><strong>Financer</strong> nos grandes rencontres et fêtes annuelles pour
+                            préserver nos liens.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; font-weight: 500; color: var(--text-main);">Chaque versement est une brique
+                    pour construire un avenir fort pour toute notre famille.</p>
+            </div>
+        </section>
+
+        <section class="payment-section" id="payment">
+            <div class="glass-panel payment-card">
+                <h2>Régler votre cotisation</h2>
+                <p>Veuillez renseigner vos informations pour procéder au paiement</p>
+
+                <form id="paymentForm" class="payment-form">
+                    <div class="input-group">
+                        <label for="fullName">Nom et Prénoms *</label>
+                        <input type="text" id="fullName" placeholder="Ex: Kouassi Jean" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="phone">Téléphone (Optionnel)</label>
+                        <input type="tel" id="phone" placeholder="Ex: 0700000000">
+                    </div>
+
+                    <button type="submit" class="btn btn-wave">
+                        <img src="https://www.wave.com/images/wave-logo.png" alt="Wave" class="wave-logo"
+                            onerror="this.style.display='none'">
+                        Payer maintenant
+                    </button>
+                </form>
+
+                <div id="confirmationMessage" class="confirmation-popup" style="display: none;">
+                    <div class="success-icon"><ion-icon name="checkmark-circle"></ion-icon></div>
+                    <h3>Paiement initié !</h3>
+                    <p class="highlight-text">Après avoir finalisé le paiement sur l'application Wave, merci de
+                        confirmer.</p>
+
+                    <div class="action-buttons">
+                        <a href="https://wa.me/?text=Bonjour,%20je%20viens%20de%20payer%20ma%20cotisation%20familiale."
+                            target="_blank" class="btn btn-whatsapp">
+                            <ion-icon name="logo-whatsapp"></ion-icon> WhatsApp
+                        </a>
+                        <button type="button" class="btn btn-print" onclick="window.print()">
+                            <ion-icon name="print"></ion-icon> Reçu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="members-section glass-panel">
+            <h2>Liste des membres</h2>
+            <p>Statut synchronisé depuis Google Sheet.</p>
+
+            <div class="members-stats">
+                <div class="stat-badge total">Total: <span id="totalMembers">20</span></div>
+                <div class="stat-badge paid">A jour: <span id="paidMembers">0</span></div>
+                <div class="stat-badge unpaid">En attente: <span id="unpaidMembers">20</span></div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="members-table">
+                    <thead>
+                        <tr>
+                            <th>Nom & Prénoms</th>
+                            <th>Contact</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membersList">
+                        <tr>
+                            <td colspan="3" style="text-align: center;"><ion-icon name="sync" class="spin"></ion-icon>
+                                Chargement des données...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="no-print">
+        <p>© 2026 Cotisation Familiale Tanoh - Conçu avec ❤️</p>
+    </footer>
+
+    <!-- This section is only visible when printing the receipt -->
+    <div id="receiptTemplate" class="receipt-print-only">
+        <div class="receipt-header">
+            <h2>REÇU DE COTISATION FAMILIALE TANOH</h2>
+            <p>Document justificatif (En attente de validation)</p>
+        </div>
+        <div class="receipt-body">
+            <div class="receipt-row">
+                <span class="label">Date :</span>
+                <span class="value" id="receiptDate"></span>
+            </div>
+            <div class="receipt-row">
+                <span class="label">Membre :</span>
+                <span class="value" id="receiptName"></span>
+            </div>
+            <div class="receipt-row">
+                <span class="label">Téléphone :</span>
+                <span class="value" id="receiptPhone"></span>
+            </div>
+            <div class="receipt-row">
+                <span class="label">Montant :</span>
+                <span class="value highlight-amount">5000 FCFA</span>
+            </div>
+            <div class="receipt-row">
+                <span class="label">Moyen de paiement :</span>
+                <span class="value">WAVE MOBILE MONEY</span>
+            </div>
+        </div>
+        <div class="receipt-footer">
+            <p>Ce reçu est émis à titre indicatif et devra être confirmé par le trésorier de la famille via WhatsApp.
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
