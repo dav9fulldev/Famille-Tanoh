@@ -31,7 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
         paymentButton.disabled = true;
 
         // Envoi au Google Sheet de l'intention de paiement (si l'URL est configurée)
-        if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith("https://script.google.com")) {
+        let isGoogleUrl = false;
+        try {
+            const urlObj = new URL(GOOGLE_SCRIPT_URL);
+            if (urlObj.hostname === 'script.google.com') {
+                isGoogleUrl = true;
+            }
+        } catch(e) {}
+
+        if (GOOGLE_SCRIPT_URL && isGoogleUrl) {
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors', // Évite les problèmes de sécurité CORS avec Google
@@ -52,7 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadMembersData() {
     const tbody = document.getElementById('membersList');
 
-    if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith("https://script.google.com")) {
+    let isGoogleUrl = false;
+    try {
+        const urlObj = new URL(GOOGLE_SCRIPT_URL);
+        if (urlObj.hostname === 'script.google.com') {
+            isGoogleUrl = true;
+        }
+    } catch(e) {}
+
+    if (GOOGLE_SCRIPT_URL && isGoogleUrl) {
         try {
             const response = await fetch(GOOGLE_SCRIPT_URL);
             const data = await response.json();
@@ -89,8 +105,8 @@ function renderTable(dataArray) {
         let printBtnContent = "";
         if (isPaid) {
             // Un petit bouton pour imprimer le reçu plus tard !
-            const safeName = (member.name || member.Nom || "Membre").replace(/'/g, "\\'");
-            const safePhone = (member.phone || member.Telephone || "-").replace(/'/g, "\\'");
+            const safeName = (member.name || member.Nom || "Membre").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+            const safePhone = (member.phone || member.Telephone || "-").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
             printBtnContent = `<button class="btn-print-small" onclick="imprimerRecu('${safeName}', '${safePhone}')" title="Imprimer le Reçu"><ion-icon name="print"></ion-icon></button>`;
         }
 
