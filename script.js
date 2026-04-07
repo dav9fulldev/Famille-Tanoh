@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentForm = document.getElementById('paymentForm');
     const paymentButton = paymentForm.querySelector('.btn-wave');
     const confirmationMessage = document.getElementById('confirmationMessage');
-    const waveLink = "https://pay.wave.com/m/M_ci_t1Z2D2ORrYwh/c/ci/?amount=10000";
+    const waveLink = "https://pay.wave.com/m/M_ci_t1Z2D2ORrYwh/c/ci/?amount=1000";
 
     paymentForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (urlObj.hostname === 'script.google.com') {
                 isGoogleUrl = true;
             }
-        } catch(e) {}
+        } catch (e) { }
 
         if (GOOGLE_SCRIPT_URL && isGoogleUrl) {
             fetch(GOOGLE_SCRIPT_URL, {
@@ -66,7 +66,7 @@ async function loadMembersData() {
         if (urlObj.hostname === 'script.google.com') {
             isGoogleUrl = true;
         }
-    } catch(e) {}
+    } catch (e) { }
 
     if (GOOGLE_SCRIPT_URL && isGoogleUrl) {
         try {
@@ -101,7 +101,7 @@ function renderTable(dataArray) {
         const tr = document.createElement('tr');
         const statusClass = isPaid ? 'status-paid' : 'status-unpaid';
         const statusText = isPaid ? 'Payé' : 'Non payé';
-        
+
         let printBtnContent = "";
         if (isPaid) {
             // Un petit bouton pour imprimer le reçu plus tard !
@@ -130,7 +130,7 @@ function renderTable(dataArray) {
 }
 
 // Fonction globale pour pouvoir imprimer le reçu depuis le tableau plus tard
-window.imprimerRecu = function(name, phone) {
+window.imprimerRecu = function (name, phone) {
     const today = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     document.getElementById('receiptName').textContent = name;
     document.getElementById('receiptPhone').textContent = phone;
