@@ -1,11 +1,40 @@
-// ⚠️ Mettez ici l'URL de votre web app Google Apps Script une fois déployée
+// Paramètres de configuration
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-vxRB5RfTUqRwiA-OYe3RKhtyAFonPuq2FKhSCVERlUIUXXsI6pwxM-OaGNEVCtj1Hg/exec";
+const FAMILY_CODE = "TANOH2026"; // Le code d'accès de la famille
 
-// Nous avons retiré les fausses données ! Le site attend désormais uniquement le Google Sheet.
+// Enregistrement du Service Worker (PWA)
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(console.error);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Charger et afficher les membres depuis Google Sheet
-    loadMembersData();
+    // ---- SYSTÈME DE CONNEXION SÉCURISÉ ----
+    const overlay = document.getElementById('loginOverlay');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('loginError');
+    const inputCode = document.getElementById('familyCode');
+
+    // Vérifier si le membre s'est déjà connecté cette semaine (localStorage)
+    if (localStorage.getItem('tanohAuth') === 'true') {
+        overlay.style.display = 'none';
+        loadMembersData();
+    } else {
+        overlay.style.opacity = '1';
+    }
+
+    loginBtn.addEventListener('click', () => {
+        if (inputCode.value.trim().toUpperCase() === FAMILY_CODE) {
+            localStorage.setItem('tanohAuth', 'true');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                loadMembersData();
+            }, 500);
+        } else {
+            errorMsg.style.display = 'block';
+            inputCode.value = '';
+        }
+    });
 
     // 2. Gestion de l'action Paiement
     const paymentForm = document.getElementById('paymentForm');
@@ -73,10 +102,24 @@ async function loadMembersData() {
             const response = await fetch(GOOGLE_SCRIPT_URL);
             const data = await response.json();
 
-            if (data && data.length > 0) {
-                renderTable(data);
+            let usersArray = [];
+            let globalFund = 0;
+
+            // Compatibilité avec la nouvelle ou l'ancienne version du script Google
+            if (Array.isArray(data)) {
+                usersArray = data; // Ancienne version
+            } else if (data && data.users) {
+                usersArray = data.users; // Nouvelle version
+                globalFund = data.totalFund || 0;
+            }
+
+            // Met à jour la cagnotte visuelle
+            document.getElementById('globalFund').textContent = globalFund.toLocaleString('fr-FR');
+
+            if (usersArray.length > 0) {
+                renderTable(usersArray);
             } else {
-                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #ef4444;">Fichier Excel trouvé mais contenant 0 membre, ou erreur de format de colonnes.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #ef4444;">Fichier Excel trouvé mais contenant 0 membre.</td></tr>';
             }
         } catch (error) {
             console.error("Erreur de synchronisation Google Sheet :", error);

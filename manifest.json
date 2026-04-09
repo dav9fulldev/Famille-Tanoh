@@ -1,0 +1,21 @@
+{
+  "name": "Famille Tanoh",
+  "short_name": "Tanoh",
+  "description": "Plateforme de cotisation de la Famille Tanoh",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1C75FF",
+  "theme_color": "#1C75FF",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/192/000000/family--v1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://img.icons8.com/color/512/000000/family--v1.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

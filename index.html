@@ -7,6 +7,8 @@
     <title>Cotisation Familiale</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1C75FF">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
@@ -16,6 +18,9 @@
         <div class="container">
             <h1>Cotisation Familiale Tanoh</h1>
             <p>Contribution mensuelle : <strong>1000 FCFA</strong></p>
+            <div class="fund-box">
+                <ion-icon name="wallet"></ion-icon> Cagnotte globale : <strong><span id="globalFund">...</span> FCFA</strong>
+            </div>
         </div>
     </header>
 
@@ -183,6 +188,17 @@
         <div class="receipt-footer">
             <p>Ce reçu est émis à titre indicatif et devra être confirmé par le trésorier de la famille via WhatsApp.
             </p>
+        </div>
+    </div>
+
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-card">
+            <ion-icon name="lock-closed" class="lock-icon"></ion-icon>
+            <h2>Espace Sécurisé</h2>
+            <p>Veuillez entrer le mot de passe de la famille Tanoh pour accéder au portail.</p>
+            <input type="password" id="familyCode" placeholder="Code secret (ex: TANOH2026)">
+            <p id="loginError" style="color: red; display: none; font-size: 0.9rem;">Code incorrect.</p>
+            <button id="loginBtn" class="btn btn-wave" style="margin-top: 15px;">Déverrouiller</button>
         </div>
     </div>
 

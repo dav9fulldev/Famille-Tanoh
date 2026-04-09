@@ -178,6 +178,31 @@ footer { text-align: center; padding: 30px; color: var(--text-muted); margin-top
     display: none;
 }
 
+/* Security Overlay & Fund Box */
+.fund-box {
+    margin-top: 15px; background: rgba(255,255,255,0.2); padding: 8px 20px; 
+    border-radius: 30px; display: inline-flex; align-items: center; gap: 8px; font-size: 1.1rem;
+}
+
+.login-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--bg-gradient); backdrop-filter: blur(20px);
+    z-index: 9999; display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.5s ease;
+}
+.login-card {
+    background: var(--white); padding: 40px; border-radius: 20px; box-shadow: var(--shadow-md);
+    text-align: center; max-width: 400px; width: 90%;
+}
+.login-card .lock-icon { font-size: 60px; color: var(--primary); margin-bottom: 20px; }
+.login-card h2 { margin-bottom: 10px; color: var(--text-main); }
+.login-card p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+.login-card input {
+    width: 100%; padding: 15px; border: 2px solid var(--border); border-radius: 12px;
+    font-size: 1rem; text-align: center; font-family: 'Inter', sans-serif;
+}
+.login-card input:focus { border-color: var(--primary); outline: none; }
+
 @media print {
     body {
         background: none;
