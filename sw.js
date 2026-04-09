@@ -17,12 +17,22 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        if (response) {
-          return response;
+        // S'il y a internet, on récupère toujours la nouvelle version Github
+        // Et on la met de côté dans le téléphone (Cache) pour plus tard
+        if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseClone);
+            });
         }
-        return fetch(event.request);
+        return response;
+      })
+      .catch(() => {
+        // En cas de coupure d'internet, on affiche la version en mémoire,
+        // l'application fonctionnera quand même !
+        return caches.match(event.request);
       })
   );
 });
