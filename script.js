@@ -40,7 +40,59 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentForm = document.getElementById('paymentForm');
     const paymentButton = paymentForm.querySelector('.btn-wave');
     const confirmationMessage = document.getElementById('confirmationMessage');
-    const waveLink = "https://pay.wave.com/m/M_ci_t1Z2D2ORrYwh/c/ci/?amount=1000";
+    const waveMerchantCode = "M_ci_t1Z2D2ORrYwh";
+    const paymentAmount = "1000";
+
+    // Fonction pour ouvrir Wave directement
+    function openWavePayment() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isAndroid = /android/.test(userAgent);
+        const isIOS = /iphone|ipad|ipod/.test(userAgent);
+        
+        if (isAndroid || isIOS) {
+            // Essayer d'ouvrir l'app Wave directement via deep link
+            const deepLink = `wave://payment?amount=${paymentAmount}&merchant=${waveMerchantCode}`;
+            const fallbackWebLink = `https://pay.wave.com/m/${waveMerchantCode}/c/ci/?amount=${paymentAmount}`;
+            
+            // Créer une iframe cachée pour tester le deep link
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            let deepLinkAttempted = false;
+            
+            // Si le deep link échoue après 1.5s, utiliser le lien web
+            const fallbackTimer = setTimeout(() => {
+                if (!deepLinkAttempted) {
+                    deepLinkAttempted = true;
+                    window.location.href = fallbackWebLink;
+                }
+                document.body.removeChild(iframe);
+            }, 1500);
+            
+            // Essayer le deep link
+            try {
+                iframe.src = deepLink;
+                deepLinkAttempted = true;
+                clearTimeout(fallbackTimer);
+                document.body.removeChild(iframe);
+                // Garder aussi le lien web en secours
+                setTimeout(() => {
+                    window.location.href = fallbackWebLink;
+                }, 500);
+            } catch (e) {
+                console.log("Deep link non supporté, utilisation du lien web");
+                clearTimeout(fallbackTimer);
+                if (document.body.contains(iframe)) {
+                    document.body.removeChild(iframe);
+                }
+                window.open(fallbackWebLink, "_blank");
+            }
+        } else {
+            // Desktop - ouvrir le lien web classique
+            window.open(`https://pay.wave.com/m/${waveMerchantCode}/c/ci/?amount=${paymentAmount}`, "_blank");
+        }
+    }
 
     paymentForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -79,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Simuler le délai, afficher confirmation, et ouvrir Wave
         setTimeout(() => {
-            window.open(waveLink, "_blank");
+            openWavePayment();
             paymentButton.style.display = 'none';
             confirmationMessage.style.display = 'block';
         }, 1200);
