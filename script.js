@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fonction pour ouvrir Wave directement
     function openWavePayment() {
-        const wavePaymentLink = `https://pay.wave.com/m/${waveMerchantCode}/c/ci/?amount=${paymentAmount}`;
+        // URL Wave simplifiée - teste avec et sans /c/ci/ si besoin
+        const wavePaymentLink = `https://pay.wave.com/m/${waveMerchantCode}/?amount=${paymentAmount}`;
         window.open(wavePaymentLink, "_blank");
     }
 
